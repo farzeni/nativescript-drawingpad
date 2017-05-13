@@ -1,35 +1,10 @@
-﻿import { PropertyChangeData } from "ui/core/dependency-observable";
-import { PropertyMetadata } from "ui/core/proxy";
+﻿import { DrawingPadCommon, penColorProperty, penWidthProperty} from './drawingpad-common';
 import { Color } from "color";
-import common = require("./drawingpad-common");
-
-function onPenWidthPropertyChanged(data: PropertyChangeData) {
-    var dPad = <DrawingPad>data.object;
-    if (!dPad.android) {
-        return;
-    }
-    dPad.android.setMinWidth(data.newValue);
-}
-
-function onPenColorPropertyChanged(data: PropertyChangeData) {
-    var dPad = <DrawingPad>data.object;
-    if (!dPad.android) {
-        return;
-    }
-    dPad.android.setPenColor(new Color(data.newValue).android);
-}
-
-// register the setNativeValue callbacks
-(<PropertyMetadata>common.DrawingPad.penWidthProperty.metadata).onSetNativeValue = onPenWidthPropertyChanged;
-(<PropertyMetadata>common.DrawingPad.penColorProperty.metadata).onSetNativeValue = onPenColorPropertyChanged;
-
-
-global.moduleMerge(common, exports);
 
 declare var com: any;
 let SignaturePad: any = com.github.gcacace.signaturepad.views.SignaturePad;
 
-export class DrawingPad extends common.DrawingPad {
+export class DrawingPad extends DrawingPadCommon {
     private _android: any;
 
     get android() {
@@ -40,8 +15,7 @@ export class DrawingPad extends common.DrawingPad {
         return this._android;
     }
 
-    public _createUI() {
-
+    public createNativeView(): Object {
         this._android = new SignaturePad(this._context, null);
 
         if (this.penColor) {
@@ -52,9 +26,9 @@ export class DrawingPad extends common.DrawingPad {
             this._android.setMinWidth(this.penWidth);
         }
 
+        return this._android;
     }
 
-    
     public getDrawing(): Promise<any> {
         return new Promise((resolve, reject) => {
             try {
@@ -107,5 +81,4 @@ export class DrawingPad extends common.DrawingPad {
             console.log('Error in clearDrawing: ' + err);
         }
     }
-
 }

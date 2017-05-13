@@ -1,8 +1,6 @@
 ﻿import { PropertyChangeData } from "ui/core/dependency-observable";
-import { PropertyMetadata } from "ui/core/proxy";
 import { ContentView } from "ui/content-view";
 import { Color } from "color";
-import common = require("./drawingpad-common");
 
 declare var SignatureView: any, CGRectMake: any;
 

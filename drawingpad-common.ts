@@ -1,20 +1,6 @@
-﻿import { View } from "ui/core/view";
-import { PropertyMetadata } from "ui/core/proxy";
-import { Property, PropertyMetadataSettings } from "ui/core/dependency-observable";
+﻿import { View, Property, CssProperty, InheritedCssProperty, Style, } from "tns-core-modules/ui/core/view";
 
-var penColorProperty = new Property(
-    "penColor",
-    "DrawingPad",
-    new PropertyMetadata(undefined, PropertyMetadataSettings.None)
-);
-
-var penWidthProperty = new Property(
-    "penWidth",
-    "DrawingPad",
-    new PropertyMetadata(undefined, PropertyMetadataSettings.None)
-);
-
-export class DrawingPad extends View {
+export class DrawingPadCommon extends View {
 
     public static penColorProperty = penColorProperty;
     public static penWidthProperty = penWidthProperty;
@@ -24,20 +10,26 @@ export class DrawingPad extends View {
     }
 
     get penColor(): string {
-        return this._getValue(DrawingPad.penColorProperty);
+        return this._getValue(DrawingPadCommon.penColorProperty);
     }
     set penColor(value: string) {
-        this._setValue(DrawingPad.penColorProperty, value);
+        this._setValue(DrawingPadCommon.penColorProperty, value);
     }
 
     get penWidth(): number {
-        return this._getValue(DrawingPad.penWidthProperty);
+        return this._getValue(DrawingPadCommon.penWidthProperty);
     }
     set penWidth(value: number) {
-        this._setValue(DrawingPad.penWidthProperty, value);
+        this._setValue(DrawingPadCommon.penWidthProperty, value);
     }
 
     public clearDrawing(): void { }
     public getDrawing(): any { }
 
 }
+
+export const penColorProperty = new Property<DrawingPadCommon, string>({name: "penColor", defaultValue: '#000000'});
+penColorProperty.register(DrawingPadCommon);
+    
+export const penWidthProperty = new Property<DrawingPadCommon, string>({name: 'penWidth', defaultValue: '3'});
+penWidthProperty.register(DrawingPadCommon);
