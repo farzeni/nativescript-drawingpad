@@ -1,84 +1,49 @@
-﻿import { PropertyChangeData } from "ui/core/dependency-observable";
-import { ContentView } from "ui/content-view";
+﻿import { DrawingPadCommon, penColorProperty, penWidthProperty} from './drawingpad-common';
 import { Color } from "color";
 
 declare var SignatureView: any, CGRectMake: any;
 
-export class DrawingPad extends ContentView {
-  private _ios: any = SignatureView;
-  private _penColor: string;
-  private _penWidth: number;
+export class DrawingPad extends DrawingPadCommon {
+  public nativeView: any = SignatureView;
 
   constructor() {
     super();
-    // console.log('--------- DrawingPad ---------');
-    this._ios = SignatureView.alloc().initWithFrame(CGRectMake(0, 0, 100, 100));
-    this._ios.clipsToBounds = true;
+    this.nativeView = SignatureView.alloc().initWithFrame(CGRectMake(0, 0, 100, 100));
+    this.nativeView.clipsToBounds = true;
   }
 
-  get ios(): any {
-    return this._ios;
+  [penColorProperty.getDefault](): string {
+        return '#000000';
   }
 
-  get _nativeView(): any {
-    return this._ios;
+  [penColorProperty.setNative](value: string) {
+      this.nativeView.setLineColor(new Color(value).android);
   }
 
-  set penColor(value: string) {
-    if (this._ios && value) {
-      // console.log(`set penColor: ${value}`);
-      this._ios.setLineColor(new Color(value).ios);
-    } else {
-      this._penColor = value;
-    }
+  [penWidthProperty.getDefault](): number {
+      return 3;
   }
-
-  set penWidth(value: any) {
-    if (this._ios) {
-      if (value && typeof value !== 'undefined' && value !== NaN && value !== 'NaN') {
-        // console.log(`set penWidth: ${value}`);
-        this._ios.setLineWidth(Math.floor(parseInt(value)));
-      }
-    } else {
-      this._penWidth = value;
-    }
-  }
-
-  public createNativeView(): Object {
-      return this._ios;
+  
+  [penWidthProperty.setNative](value: string) {
+      this.nativeView.setLineWidth(parseInt(value));
   }
 
   public onLoaded() {
-
     // console.log(`onLoaded ${this.width}, ${this.height}`);
     if (this.width) {
-      this._ios.frame.size.width = this.width;
+      this.nativeView.frame.size.width = this.width;
     }
     if (this.height) {
-      this._ios.frame.size.height = this.height;
+      this.nativeView.frame.size.height = this.height;
     }
-
-    try {
-      if (this._penColor) {
-        this.penColor = this._penColor;
-      }
-
-      if (this._penWidth) {
-        this.penWidth = this._penWidth;
-      }
-
-    } catch (ex) {
-      console.log(ex);
-    }
-
   }
 
   public getDrawing(): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
-        let isSigned = this._ios.isSigned();
+        let isSigned = this.nativeView.isSigned();
         if (isSigned === true) {
-          let data = this._ios.signatureImage();
+          let data = this.nativeView.signatureImage();
           resolve(data);
         } else {
           reject("DrawingPad is empty.");
@@ -98,13 +63,12 @@ export class DrawingPad extends ContentView {
         } else if (color.constructor == String) {
           color = new Color(<any>color).ios;
         } 
-        this._ios.clearWithColor(color);
+        this.nativeView.clearWithColor(color);
       } else {
-        this._ios.clear();
+        this.nativeView.clear();
       }
     } catch (err) {
       console.log("Error clearing the DrawingPad: " + err);
     }
   }
-
 }
