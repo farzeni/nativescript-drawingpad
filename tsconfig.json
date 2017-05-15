@@ -23,7 +23,7 @@
         }
     },
     "files": [
-        "demo/node_modules/tns-core-modules/tns-core-modules.d.ts",
+        "node_modules/tns-core-modules/tns-core-modules.d.ts",
         "drawingpad-common.ts",
         "drawingpad.android.ts",
         "drawingpad.ios.ts"

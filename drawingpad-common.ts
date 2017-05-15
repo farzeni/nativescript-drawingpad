@@ -2,25 +2,12 @@
 
 export class DrawingPadCommon extends View {
 
-    public static penColorProperty = penColorProperty;
-    public static penWidthProperty = penWidthProperty;
+    // Defined property to make typescript happy. 
+    public static penColor: string;
+    public static penWidth: string;
 
     constructor() {
         super();
-    }
-
-    get penColor(): string {
-        return this._getValue(DrawingPadCommon.penColorProperty);
-    }
-    set penColor(value: string) {
-        this._setValue(DrawingPadCommon.penColorProperty, value);
-    }
-
-    get penWidth(): number {
-        return this._getValue(DrawingPadCommon.penWidthProperty);
-    }
-    set penWidth(value: number) {
-        this._setValue(DrawingPadCommon.penWidthProperty, value);
     }
 
     public clearDrawing(): void { }

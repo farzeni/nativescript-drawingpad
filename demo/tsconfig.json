@@ -2,10 +2,12 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es5",
-        "sourceMap": true,
         "experimentalDecorators": true,
         "noEmitHelpers": true
     },
+    "files": [
+        "node_modules/tns-core-modules/tns-core-modules.d.ts"
+    ],
     "exclude": [
         "node_modules",
         "platforms"

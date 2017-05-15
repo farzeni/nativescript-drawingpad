@@ -33,13 +33,13 @@ export class HelloWorldModel extends Observable {
   }
 
   public changePenColor() {
-    this.set('penColor', '#ff4801');
+    this._myDrawingPad._nativeView.penColor('#ff4801');
   }
 
   public openColorPicker() {
     this._colorPicker.show('#3489db', 'HEX').then((result) => {
       console.log('color int: ' + result);
-      this.set('penColor', result);
+      this.changePenColor();
     }).catch((err) => {
       console.log(err);
     })

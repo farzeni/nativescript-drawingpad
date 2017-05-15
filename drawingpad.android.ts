@@ -15,17 +15,24 @@ export class DrawingPad extends DrawingPadCommon {
         return this._android;
     }
 
+    [penColorProperty.getDefault](): string {
+        return '#000000';
+    }
+
+    [penColorProperty.setNative](value: string) {
+        this._android.setPenColor(new Color(value).android);
+    }
+
+    [penWidthProperty.getDefault](): string {
+        return '3';
+    }
+    
+    [penWidthProperty.setNative](value: string) {
+        this._android.setMinWidth(value);
+    }
+
     public createNativeView(): Object {
         this._android = new SignaturePad(this._context, null);
-
-        if (this.penColor) {
-            this._android.setPenColor(new Color(this.penColor).android);
-        }
-
-        if (this.penWidth) {
-            this._android.setMinWidth(this.penWidth);
-        }
-
         return this._android;
     }
 
