@@ -17,7 +17,7 @@ export class DrawingPad extends DrawingPadCommon {
   }
 
   [penColorProperty.setNative](value: string) {
-      this.nativeView.setLineColor(new Color(value).android);
+      this.nativeView.setLineColor(new Color(value).ios);
   }
 
   [penWidthProperty.getDefault](): number {
