@@ -44,6 +44,10 @@ export class DrawingPad extends ContentView {
     }
   }
 
+  public createNativeView(): Object {
+      return this._ios;
+  }
+
   public onLoaded() {
 
     // console.log(`onLoaded ${this.width}, ${this.height}`);
